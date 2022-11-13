@@ -1,6 +1,7 @@
-import React from "react";
-import { Box, Grommet, Page, Text } from "grommet";
+import React, { useEffect, useState } from "react";
+import { Box, Grid, Grommet, Page, Text } from "grommet";
 import styled, { keyframes } from "styled-components";
+import filter from "./images/filter.svg";
 
 const breatheAnimation = keyframes`
  0% { height: 100px; width: 100px; }
@@ -27,23 +28,182 @@ const Container = styled.div`
   height: 450px;
 `;
 
+const Clock = () => {
+  const [date, setDate] = useState(new Date());
+
+  useEffect(() => {
+    const timerId = setInterval(tick, 1000);
+    return () => {
+      clearInterval(timerId);
+    };
+  }, [date]);
+
+  const tick = () => {
+    setDate(new Date());
+  };
+  return (
+    <span
+      style={{
+        fontFamily: "Fragment Mono",
+        gridColumn: 1,
+        gridRow: 1,
+        alignSelf: "end",
+        fontSize: "4vw",
+        color: "white",
+      }}
+    >
+      {date.toLocaleTimeString()}
+    </span>
+  );
+};
+
 function App() {
   return (
     <Grommet plain full>
-      <Page kind="full" height="100%" width="100%">
+      <Page
+        kind="narrow"
+        style={{
+          paddingRight: "clamp(0rem, 4.5vw - 1.1rem, 3rem)",
+          paddingLeft: "clamp(0rem, 4.5vw - 1.1rem, 3rem)",
+          backgroundColor: "rgb(42, 126, 196)",
+        }}
+      >
         {/* <Container>
           <Circle />
         </Container> */}
-        <Box
-          height="50%"
-          background="neutral-1"
-          style={{
-            backgroundColor: "#EE4F34",
-            gridTemplateRows: "1fr",
-            display: "grid",
-          }}
-        >
-          {/* <div>
+        <Grid height="100%" style={{ overflow: "hidden" }}>
+          <Box
+            style={{
+              background: "#EE4F34",
+              // background: `linear-gradient(0deg, rgba(242,209,71,0.3), rgba(247,63,0,0.3)), url(${filter})`,
+              // filter: "contrast(910%) brightness(100%)",
+              display: "grid",
+              gridTemplateColumns: "repeat(3,1fr)",
+              height: "50vh",
+            }}
+          >
+            <ol
+              onClick={() => alert("hello")}
+              style={{
+                fontFamily: "Montserrat",
+                fontSize: "clamp(1rem, 7vw, 3rem)",
+                padding: "1vh",
+                margin: 0,
+                color: "rgb(242, 209, 71)",
+                gridRow: "1/2",
+                gridColumn: "3",
+                alignSelf: "flex-start",
+                justifySelf: "end",
+              }}
+            >
+              <li style={{ listStyle: "none" }}>menu</li>
+            </ol>
+            <span
+              style={{
+                fontFamily: "Montserrat",
+                color: "#2A7EC4",
+                gridRow: "1/2",
+                gridColumn: "1/3",
+                zIndex: 2,
+                // fontSize: "clamp(18rem, 27vw + 11.7rem, 36rem)",
+                // lineHeight: 0.4,
+                justifySelf: "center",
+              }}
+            >
+              <div style={{ width: "clamp(24rem, 7.5vw + 22.2rem, 29rem)" }}>
+                <svg viewBox="0 0 12 10" xmlns="http://www.w3.org/2000/svg">
+                  <text y="7.1" x="2.5" fontSize="80%" fill="#2A7EC4">
+                    v
+                  </text>
+                </svg>
+              </div>
+            </span>
+            <Box
+              height="40%"
+              width="80%"
+              style={{
+                backgroundColor: "#F2D147",
+                gridRow: "1/2",
+                gridColumn: "1/span3",
+                alignSelf: "center",
+              }}
+            ></Box>
+            <Clock />
+          </Box>
+          <Box
+            style={{
+              backgroundColor: "#F2D147",
+              display: "grid",
+              gridTemplateColumns: "repeat(3,1fr)",
+              height: "50vh",
+            }}
+          >
+            <span
+              style={{
+                fontFamily: "Montserrat",
+                gridRow: "1/2",
+                gridColumn: "2/-1",
+                color: "#2A7EC4",
+                // fontSize: "clamp(18rem, 27vw + 11.7rem, 36rem)",
+                justifySelf: "center",
+                // lineHeight: 0.1,
+                zIndex: 2,
+              }}
+            >
+              <div style={{ width: "clamp(24rem, 7.5vw + 22.2rem, 29rem)" }}>
+                <svg
+                  viewBox="0 0 12 10"
+                  xmlns="http://www.w3.org/2000/svg"
+                  style={{ overflow: "visible" }}
+                >
+                  <text y="5.1" x="2" fontSize="80%" fill="#2A7EC4">
+                    y
+                  </text>
+                  <text y="7.5" x="7" fontSize="60%" fill="#2A7EC4">
+                    .
+                  </text>
+                </svg>
+              </div>
+            </span>
+            <Box
+              height="40%"
+              width="80%"
+              style={{
+                backgroundColor: "#EE4F34",
+                gridRow: "1/2",
+                gridColumn: "1/-1",
+                alignSelf: "center",
+                justifySelf: "end",
+              }}
+            ></Box>
+            <span
+              style={{
+                fontFamily: "Montserrat",
+                fontStyle: "italic",
+                color: "rgb(238, 79, 52)",
+                gridColumn: "1",
+                gridRow: "1/2",
+                alignSelf: "end",
+                justifySelf: "baseline",
+                fontSize: "clamp(2rem, 12vw, 4rem)",
+                writingMode: "vertical-lr",
+                paddingBottom: "3vh",
+                paddingLeft: "1vh",
+              }}
+            >
+              call me
+            </span>
+          </Box>
+        </Grid>
+      </Page>
+    </Grommet>
+  );
+}
+
+export default App;
+
+{
+  /* <div>
             <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
               <filter id="noiseFilter">
                 <feTurbulence
@@ -56,115 +216,5 @@ function App() {
 
               <rect width="100%" height="100%" filter="url(#noiseFilter)" />
             </svg>
-          </div> */}
-          <ol
-            onClick={() => alert("hello")}
-            style={{
-              fontFamily: "Montserrat",
-              fontSize: "clamp(1rem, 7vw, 2rem)",
-              padding: 0,
-              margin: 0,
-              color: "rgb(242, 209, 71)",
-              gridRow: "1/2",
-              gridColumn: "1/2",
-              alignSelf: "flex-start",
-              justifySelf: "end",
-            }}
-          >
-            <li style={{ listStyle: "none" }}>menu</li>
-          </ol>
-          {/* <span
-            style={{
-              fontFamily: "Montserrat",
-              lineHeight: "46%",
-              color: "#2A7EC4",
-              fontSize: "clamp(22rem, 42vw + 11.5rem, 64rem)",
-              gridRow: "1/2",
-              gridColumn: "1/2",
-              overflow: "visible",
-              zIndex: 2,
-            }}
-          >
-            v
-          </span> */}
-          <span
-            style={{
-              fontFamily: "Montserrat",
-
-              color: "#2A7EC4",
-
-              gridRow: "1/2",
-              gridColumn: "1/2",
-              overflow: "visible",
-              zIndex: 2,
-            }}
-          >
-            <svg viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg">
-              <text y="9" x="0" font-size="10px">
-                v
-              </text>
-            </svg>
-          </span>
-          <Box
-            height="40%"
-            width="80%"
-            style={{
-              backgroundColor: "#F2D147",
-              gridRow: "1/2",
-              gridColumn: "1/2",
-              alignSelf: "center",
-            }}
-          ></Box>
-        </Box>
-        <Box
-          height="50%"
-          style={{
-            backgroundColor: "#F2D147",
-            display: "grid",
-            gridTemplateRows: "1fr",
-            gridTemplateColumns: "repeat(4,1fr)",
-          }}
-        >
-          <span
-            style={{
-              fontFamily: "Montserrat",
-              lineHeight: "40%",
-              color: "#2A7EC4",
-              fontSize: "clamp(22rem, 42vw + 11.5rem, 64rem)",
-              gridRow: "1/2",
-              gridColumn: "3/5",
-              zIndex: 2,
-            }}
-          >
-            y.
-          </span>
-          <Box
-            height="40%"
-            width="80%"
-            style={{
-              backgroundColor: "#EE4F34",
-              gridRow: "1/2",
-              gridColumn: "1/5",
-              alignSelf: "center",
-            }}
-          ></Box>
-          <span
-            style={{
-              fontFamily: "Montserrat",
-              fontStyle: "italic",
-              color: "black",
-              gridColumn: "4/5",
-              gridRow: "1/2",
-              alignSelf: "end",
-              fontSize: "clamp(2rem, 12vw, 4rem)",
-            }}
-          >
-            call me
-          </span>
-        </Box>
-      </Page>
-    </Grommet>
-  );
+          </div> */
 }
-
-export default App;
