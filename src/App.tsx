@@ -50,6 +50,7 @@ const Clock = () => {
         alignSelf: "end",
         fontSize: "4vw",
         color: "white",
+        zIndex: 2,
       }}
     >
       {date.toLocaleTimeString()}
@@ -87,7 +88,7 @@ function App() {
               style={{
                 fontFamily: "Montserrat",
                 fontSize: "clamp(1rem, 7vw, 3rem)",
-                padding: "1vh",
+                paddingRight: "3vh",
                 margin: 0,
                 color: "rgb(242, 209, 71)",
                 gridRow: "1/2",
@@ -110,7 +111,7 @@ function App() {
                 justifySelf: "center",
               }}
             >
-              <div style={{ width: "clamp(24rem, 7.5vw + 22.2rem, 29rem)" }}>
+              <div style={{ width: "clamp(20rem, 12.2vw + 17.6rem, 32rem)" }}>
                 <svg viewBox="0 0 12 10" xmlns="http://www.w3.org/2000/svg">
                   <text y="7.1" x="2.5" fontSize="80%" fill="#2A7EC4">
                     v
@@ -150,7 +151,7 @@ function App() {
                 zIndex: 2,
               }}
             >
-              <div style={{ width: "clamp(24rem, 7.5vw + 22.2rem, 29rem)" }}>
+              <div style={{ width: "clamp(20rem, 12.2vw + 17.6rem, 32rem)" }}>
                 <svg
                   viewBox="0 0 12 10"
                   xmlns="http://www.w3.org/2000/svg"
