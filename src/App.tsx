@@ -1,32 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Box, Grid, Grommet, Page, Text } from "grommet";
 import styled, { keyframes } from "styled-components";
-import filter from "./images/filter.svg";
-
-const breatheAnimation = keyframes`
- 0% { height: 100px; width: 100px; }
- 30% { height: 400px; width: 400px; opacity: 1 }
- 40% { height: 405px; width: 405px; opacity: 0.3; }
- 100% { height: 100px; width: 100px; opacity: 0.6; }
-`;
-const Circle = styled.div`
-  height: 100px;
-  width: 100px;
-  border-style: solid;
-  border-width: 5px;
-  border-radius: 50%;
-  border-color: black;
-  animation-name: ${breatheAnimation};
-  animation-duration: 8s;
-  animation-iteration-count: infinite;
-`;
-const Container = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  height: 450px;
-`;
 
 const Clock = () => {
   const [date, setDate] = useState(new Date());
@@ -51,6 +25,7 @@ const Clock = () => {
         fontSize: "4vw",
         color: "white",
         zIndex: 2,
+        width: "30vw",
       }}
     >
       {date.toLocaleTimeString()}
@@ -58,7 +33,43 @@ const Clock = () => {
   );
 };
 
+const infiniteScroll = keyframes`
+
+  from {
+    transform: translateX(100%);
+  }
+  to {
+
+    transform: translateX(-1000%);
+  }
+`;
+
+const Scroller = styled.div`
+  white-space: nowrap;
+  animation: ${infiniteScroll} 100s linear infinite;
+  font-family: monospace;
+  position: absolute;
+  rotate: -90deg;
+  width: 100%;
+  left: 45%;
+  bottom: 46%;
+  color: rgb(242, 209, 71);
+  font-size: 1.5rem;
+`;
+
 function App() {
+  const [txt, setTxt] = useState("");
+
+  useEffect(() => {
+    fetch("./dontfret.txt")
+      .then((r) => r.text())
+      .then((text) => {
+        let s = text.replaceAll("\n", " ");
+
+        setTxt(s);
+      });
+  }, []);
+
   return (
     <Grommet plain full>
       <Page
@@ -67,11 +78,15 @@ function App() {
           paddingRight: "clamp(0rem, 4.5vw - 1.1rem, 3rem)",
           paddingLeft: "clamp(0rem, 4.5vw - 1.1rem, 3rem)",
           backgroundColor: "rgb(42, 126, 196)",
+          position: "relative",
+          overflow: "hidden",
         }}
       >
-        {/* <Container>
-          <Circle />
-        </Container> */}
+        {/* <div
+          style={{ overflow: "hidden", width: "100px", position: "absolute" }}
+        > */}
+        <Scroller>{txt}</Scroller>
+        {/* </div> */}
         <Grid height="100%" style={{ overflow: "hidden" }}>
           <Box
             style={{
